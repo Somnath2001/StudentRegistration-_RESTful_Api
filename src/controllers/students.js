@@ -115,8 +115,6 @@ exports.uploadProfilepic = async (req, res) => {
       return res.send(`You must select a file.`);
     }
     return res.send("file has been uploaded");
-
-    // return res.send(`File has been uploaded.`);
   } catch (error) {
     console.log(error);
     return res.send(`Error when trying upload image: ${error}`);
