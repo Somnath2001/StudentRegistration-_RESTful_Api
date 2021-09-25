@@ -6,12 +6,9 @@ const {
   findStudentById,
   updateStudentById,
   deleteStudentById,
-  uploadProfilepic,
+  studregister,
   displayPic,
 } = require("../controllers/students");
-
-//create the student registration
-router.post("/student", createStudent);
 
 //Get all Students
 router.get("/students", findStudent);
@@ -25,8 +22,8 @@ router.put("/student/update/:studentId", updateStudentById);
 //delete the Student
 router.delete("/student/delete/:studentId", deleteStudentById);
 
-//upload the Profilepic of Student
-router.post("/student/upload", uploadProfilepic);
+//create the student registration with profilepic
+router.post("/student/register", studregister);
 
 //fetch profile photo of Student
 router.get("/student/profile/:profilePic", displayPic);

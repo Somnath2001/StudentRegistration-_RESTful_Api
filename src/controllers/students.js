@@ -6,19 +6,6 @@ const util = require("util");
 const mongoose = require("mongoose");
 connection = require("../db/connection");
 
-//store new student registration
-exports.createStudent = (req, res) => {
-  const user = new Student(req.body);
-  user
-    .save()
-    .then(() => {
-      res.status(201).send(user);
-    })
-    .catch((err) => {
-      res.status(400).send(err);
-    });
-};
-
 //find All the student
 exports.findStudent = (req, res) => {
   Student.find()
@@ -107,14 +94,28 @@ var storage = new GridFsStorage({
 var uploadFile = multer({ storage: storage }).single("file");
 var uploadpic = util.promisify(uploadFile);
 
-exports.uploadProfilepic = async (req, res) => {
+exports.studregister = async (req, res) => {
   try {
     await uploadpic(req, res);
-    console.log(req.file);
+    // console.log(req.file);
     if (req.file == undefined) {
       return res.send(`You must select a file.`);
     }
-    return res.send("file has been uploaded");
+    try {
+      let id = mongoose.Types.ObjectId();
+      const studProfile = {
+        _id: id,
+        name: req.body.name,
+        email: req.body.email,
+        phone: req.body.phone,
+        address: req.body.address,
+        URL: `https://studregister.herokuapp.com/api/student/profile/${req.file.filename}`,
+      };
+      const data = await Student.create(studProfile);
+      res.status(200).json(data);
+    } catch (error) {
+      return res.status(500).send(error);
+    }
   } catch (error) {
     console.log(error);
     return res.send(`Error when trying upload image: ${error}`);
@@ -122,7 +123,6 @@ exports.uploadProfilepic = async (req, res) => {
 };
 
 //to display the profilePic
-
 exports.displayPic = async (req, res) => {
   const picname = req.params.profilePic;
   const bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {

@@ -10,7 +10,7 @@ app.use(express.json());
 app.use("/api", StudentRoute);
 
 //port
-const port = process.env.PORT || 8082;
+const port = process.env.PORT || 8081;
 
 //starting a server
 app.listen(port, () => {

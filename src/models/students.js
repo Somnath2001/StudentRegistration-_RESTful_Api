@@ -27,6 +27,9 @@ const studentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  URL: {
+    type: String,
+  },
 });
 
 const Student = new mongoose.model("Student", studentSchema);
